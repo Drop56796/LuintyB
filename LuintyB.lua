@@ -15,7 +15,7 @@ local Notif = library:InitNotifications()
 
 local LoadingXSX = Notif:Notify("LuintyB is loading...", 5, "information") 
 
-library.title = "LuintyB ★Doors★"
+library.title = "LuintyB Welcome back {Doors)"
 
 library:Introduction()
 wait(1)
@@ -25,31 +25,104 @@ local Tab1 = Init:NewTab("Main")
 
 local Section1 = Tab1:NewSection("Hub")
 
-local Label1 = Tab1:NewLabel("Example label", "left")--"left", "center", "right"
+local Label1 = Tab1:NewLabel("hub", "left")--"left", "center", "right"
 
-local Toggle1 = Tab1:NewToggle("Example toggle", false, function(value)
-    local vers = value and "on" or "off"
-    print("one " .. vers)
-end):AddKeybind(Enum.KeyCode.RightControl)
-
-local Toggle2 = Tab1:NewToggle("Toggle", false, function(value)
-    local vers = value and "on" or "off"
-    print("two " .. vers)
-end):AddKeybind(Enum.KeyCode.LeftControl)
-
-local Button1 = Tab1:NewButton("Button", function()
-    print("one")
+local Button1 = Tab1:NewButton("highlight", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/4LDKiJ5a"))()
 end)
 
-local Keybind1 = Tab1:NewKeybind("Keybind 1", Enum.KeyCode.RightAlt, function(key)
-    Init:UpdateKeybind(Enum.KeyCode[key])
+local Button2 = Tab1:NewButton("Key esp", function()
+    local ESP = {} -- Table to hold our ESP functions and data
+
+-- Function to create a BillboardGui for ESP
+function ESP:CreateESP(object)
+    local billboardGui = Instance.new("BillboardGui")
+    billboardGui.Name = "key"
+    billboardGui.Adornee = object
+    billboardGui.Size = UDim2.new(0, 100, 0, 50)
+    billboardGui.AlwaysOnTop = true
+
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Parent = billboardGui
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.BackgroundTransparency = 1
+    textLabel.Text = object.Name
+    textLabel.TextColor3 = Color3.new(0, 1, 0) -- Green color
+    textLabel.TextStrokeTransparency = 0.5
+
+    billboardGui.Parent = object
+end
+
+-- Function to find objects named "KeyObtain" and apply ESP
+function ESP:ApplyToKeyObtains()
+    for _, object in pairs(workspace:GetDescendants()) do
+        if object:IsA("BasePart") and object.Name == "KeyObtain" then
+            self:CreateESP(object)
+        end
+    end
+end
+
+-- Apply ESP to all KeyObtains initially
+ESP:ApplyToKeyObtains()
+
+-- Optionally, connect to the DescendantAdded event to apply ESP to new KeyObtains
+workspace.DescendantAdded:Connect(function(descendant)
+    if descendant:IsA("BasePart") and descendant.Name == "KeyObtain" then
+        ESP:CreateESP(descendant)
+    end
+end)
+end)
+
+
+local Button3 = Tab1:NewButton("item esp", function()
+    local ESP = {} -- Table to hold our ESP functions and data
+
+-- Function to create a BillboardGui for ESP
+function ESP:CreateESP(object)
+    local billboardGui = Instance.new("BillboardGui")
+    billboardGui.Name = "Flashlight"
+    billboardGui.Adornee = object
+    billboardGui.Size = UDim2.new(0, 100, 0, 50)
+    billboardGui.AlwaysOnTop = true
+
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Parent = billboardGui
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.BackgroundTransparency = 1
+    textLabel.Text = object.Name
+    textLabel.TextColor3 = Color3.new(0, 1, 0) -- Green color
+    textLabel.TextStrokeTransparency = 0.5
+
+    billboardGui.Parent = object
+end
+
+-- Function to find objects named "Flashlight" and apply ESP
+function ESP:ApplyToFlashlights()
+    for _, object in pairs(workspace:GetDescendants()) do
+        if object:IsA("BasePart") and object.Name == "Flashlight" then
+            self:CreateESP(object)
+        end
+    end
+end
+
+-- Apply ESP to all flashlights initially
+ESP:ApplyToFlashlights()
+
+-- Optionally, connect to the DescendantAdded event to apply ESP to new flashlights
+workspace.DescendantAdded:Connect(function(descendant)
+    if descendant:IsA("BasePart") and descendant.Name == "Flashlight" then
+        ESP:CreateESP(descendant)
+    end
+end)
 end)
 
 local Slider1 = Tab1:NewSlider("Speed:", "", true, "/", {min = 1, max = 100, default = 0}, function(value)
-    print(value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
 end)
 
-
+local Slider2 = Tab1:NewSlider("fov:", "", true, "/", {min = 1, max = 120, default = 0}, function(value)
+    game.Workspace.CurrentCamera.FieldOfView = value 
+end)
 
 local FinishedLoading = Notif:Notify("Loaded LuintyB", 4, "success")
 
